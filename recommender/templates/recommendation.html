@@ -1,0 +1,40 @@
+<!-- templates/recommendation.html -->
+{% extends 'base.html' %}
+
+{% block title %}Recipe Recommender{% endblock %}
+
+{% block content %}
+<section>
+    <h2>Select Diabetes Type</h2>
+    <form id="recommendationForm" action="/recipes/recommend/" method="POST">  <!-- Update the form action -->
+        {% csrf_token %}
+        <div class="diabetes-type">
+            <label>
+                <input type="radio" name="diabetes_type" value="Type A" checked>
+                Type A
+            </label>
+            <label>
+                <input type="radio" name="diabetes_type" value="Type B">
+                Type B
+            </label>
+            <label>
+                <input type="radio" name="diabetes_type" value="Type C">
+                Type C
+            </label>
+
+            <button id="findRecipesBtn" type="submit">Find Recipes</button>
+        </div>
+    </form>
+    <div id="loadingIcon" class="loading-icon" style="display: none;">Loading...</div>
+</section>
+
+<script>
+    document.getElementById('recommendationForm').addEventListener('submit', function(event) {
+        // Show loading icon when form is submitted
+        document.getElementById('loadingIcon').style.display = 'block';
+
+        // Disable submit button to prevent multiple submissions
+        document.getElementById('findRecipesBtn').disabled = true;
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+/* static/css/styles.css */
+.recipe-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust column width as needed */
+    gap: 20px; /* Adjust gap between cards */
+}
+
+.recipe-card {
+    border: 1px solid #ddd; /* Optional: Add border for cards */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.recipe-image img {
+    width: 100%; /* Ensure images fill their container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.recipe-details {
+    padding: 10px;
+    text-align: center;
+}

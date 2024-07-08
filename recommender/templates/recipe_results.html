@@ -1,0 +1,100 @@
+<!-- templates/recipe_results.html -->
+{% extends 'base.html' %}
+
+{% block title %}Recipe Results{% endblock %}
+
+{% block content %}
+<section>
+    <h2>Recommended Recipes</h2>
+    <div class="recipe-gallery">
+        {% for recipe in recipes %}
+        <div class="recipe-card">
+            <div class="recipe-image">
+                {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" alt="{{ recipe.recipe_name }}">
+                {% else %}
+                <div class="loading-icon">Loading...</div>
+                {% endif %}
+            </div>
+            <div class="recipe-details">
+                <h3>{{ recipe.recipe_name }}</h3>
+                <div class="rating">
+                    {% if recipe.rating %}
+                        {% for i in "12345" %}
+                            {% if i|floatformat <= recipe.rating|floatformat %}
+                                <span class="star" data-rating="{{ i }}">&#9733;</span>
+                            {% else %}
+                                <span class="star" data-rating="{{ i }}">☆</span>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in "12345" %}
+                            <span class="star" data-rating="{{ i }}">☆</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <button class="rate-btn" onclick="rateRecipe('{{ recipe.local_name }}')">Rate Recipe</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    function rateRecipe(recipeName) {
+        const rating = prompt("Enter your rating (1-5):");
+
+        if (rating === null) {
+            return; // User cancelled rating
+        }
+
+        if (isNaN(rating) || rating < 1 || rating > 5) {
+            alert("Please enter a valid rating between 1 and 5.");
+            return;
+        }
+
+        fetch('/recipes/rate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Ensure CSRF token is included
+            },
+            body: JSON.stringify({
+                local_name: recipeName,
+                rating: parseInt(rating)
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to rate recipe.');
+            }
+        })
+        .then(data => {
+            console.log('Recipe rated successfully:', data);
+            // Optionally update UI to reflect rated status
+        })
+        .catch(error => {
+            console.error('Error rating recipe:', error);
+            // Handle error in UI if necessary
+        });
+    }
+
+    // Function to get CSRF token from cookie for POST requests
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}
