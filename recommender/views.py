@@ -14,8 +14,7 @@ from bs4 import BeautifulSoup
 import requests
 from .serializers import RecipeRatingSerializer
 from django.views.generic.base import View
-from django.conf import settings
-from django.http import JsonResponse
+
 
 
 
@@ -67,18 +66,8 @@ class RecipeRecommendationView(View):
         for recipe in recipes:
             if recipe.local_name not in unique_recipes:
                 unique_recipes.add(recipe.local_name)
-
-                # Check if the image URL already exists in the database
-                if recipe.image_url:
-                    image_url = recipe.image_url
-                else:
-                    search_name_for_search = recipe.search_name.replace(',', '+')
-                    image_url = self.fetch_image_url(search_name_for_search)
-                    if image_url:
-                        # Save the image URL to the database
-                        recipe.image_url = image_url
-                        recipe.save()
-
+                search_name_for_search = recipe.search_name.replace(',', '+')
+                image_url = self.fetch_image_url(search_name_for_search)
                 suitable_recipes.append({
                     "recipe_name": recipe.local_name,
                     "image_url": image_url,
@@ -89,8 +78,6 @@ class RecipeRecommendationView(View):
             return render(request, 'no_recipes.html')  # Render a template for no recipes found
 
         return render(request, 'recipe_results.html', {"recipes": suitable_recipes})  # Render the results template with recipes
-
-
 
 
 class RateRecipeView(APIView):
