@@ -4,9 +4,9 @@
 {% block title %}Recipe Recommender{% endblock %}
 
 {% block content %}
-<section>
+<section class="content-section">
     <h2>Select Diabetes Type</h2>
-    <form id="recommendationForm" action="/recipes/recommend/" method="POST">  <!-- Update the form action -->
+    <form id="recommendationForm" action="/recipes/recommend/" method="POST">
         {% csrf_token %}
         <div class="diabetes-type">
             <label>
@@ -21,7 +21,6 @@
                 <input type="radio" name="diabetes_type" value="Type C">
                 Type C
             </label>
-
             <button id="findRecipesBtn" type="submit">Find Recipes</button>
         </div>
     </form>
