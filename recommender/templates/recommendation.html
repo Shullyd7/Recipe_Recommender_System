@@ -1,28 +1,22 @@
-<!-- templates/recommendation.html -->
 {% extends 'base.html' %}
 
-{% block title %}Recipe Recommender{% endblock %}
+{% block title %}Recipe Recommendations{% endblock %}
 
 {% block content %}
 <section class="content-section">
-    <h2>Select Diabetes Type</h2>
+    <h2>{{ classification_message }}</h2>
     <form id="recommendationForm" action="/recipes/recommend/" method="POST">
         {% csrf_token %}
-        <div class="diabetes-type">
-            <label>
-                <input type="radio" name="diabetes_type" value="Type A" checked>
-                Type A
-            </label>
-            <label>
-                <input type="radio" name="diabetes_type" value="Type B">
-                Type B
-            </label>
-            <label>
-                <input type="radio" name="diabetes_type" value="Type C">
-                Type C
-            </label>
+        {% if classification == 'warning' %}
+            <input type="hidden" name="diabetes_type" value="all">
+            <button id="viewAllRecipesBtn" type="submit">View All Recipes</button>
+        {% elif classification == 'clean_bill_of_health' %}
+            <input type="hidden" name="diabetes_type" value="all">
+            <button id="viewAllRecipesBtn" type="submit">View All Recipes</button>
+        {% else %}
+            <input type="hidden" name="diabetes_type" value="{{ classification }}">
             <button id="findRecipesBtn" type="submit">Find Recipes</button>
-        </div>
+        {% endif %}
     </form>
     <div id="loadingIcon" class="loading-icon" style="display: none;">Loading...</div>
 </section>
@@ -34,7 +28,7 @@
 
         // Disable submit button to prevent multiple submissions
         document.getElementById('findRecipesBtn').disabled = true;
+        document.getElementById('viewAllRecipesBtn').disabled = true;
     });
 </script>
 {% endblock %}
-

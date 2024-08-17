@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Diabetes Classification{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <h2>Classify Your Diabetes Type</h2>
+    <form id="classificationForm" action="/recipes/classify/" method="POST">
+        {% csrf_token %}
+        <div class="question">
+            <label>Do you have a history of autoimmune diseases or conditions associated with autoimmunity?</label>
+            <label><input type="radio" name="autoimmune_disease" value="yes"> Yes</label>
+            <label><input type="radio" name="autoimmune_disease" value="no"> No</label>
+        </div>
+        <div class="question">
+            <label>Have you experienced diabetes onset before age 30?</label>
+            <label><input type="radio" name="age_of_onset" value="yes"> Yes</label>
+            <label><input type="radio" name="age_of_onset" value="no"> No</label>
+            <label><input type="radio" name="age_of_onset" value="na"> N/A</label>
+        </div>
+        <div class="question">
+            <label>Are you dependent on insulin to manage your blood glucose levels?</label>
+            <label><input type="radio" name="insulin_dependence" value="yes"> Yes</label>
+            <label><input type="radio" name="insulin_dependence" value="no"> No</label>
+        </div>
+        <div class="question">
+            <label>Do you have a family history of diabetes?</label>
+            <label><input type="radio" name="family_history" value="yes"> Yes</label>
+            <label><input type="radio" name="family_history" value="no"> No</label>
+        </div>
+        <div class="question">
+            <label>Do you experience any symptoms of diabetes such as increased thirst, frequent urination, or fatigue?</label>
+            <label><input type="radio" name="symptoms" value="yes"> Yes</label>
+            <label><input type="radio" name="symptoms" value="no"> No</label>
+        </div>
+        <div class="question">
+            <label>Do you have any risk factors for diabetes such as obesity or high blood pressure?</label>
+            <label><input type="radio" name="risk_factors" value="yes"> Yes</label>
+            <label><input type="radio" name="risk_factors" value="no"> No</label>
+        </div>
+        <div class="question">
+            <label>What is your fasting blood glucose level (mg/dL)?</label>
+            <input type="number" name="fasting_glucose" step="0.1" required>
+        </div>
+        <div class="question">
+            <label>Are your glucose levels within the normal range?</label>
+            <label><input type="radio" name="normal_glucose_levels" value="yes"> Yes</label>
+            <label><input type="radio" name="normal_glucose_levels" value="no"> No</label>
+        </div>
+        <button id="submitClassificationBtn" type="submit">Submit</button>
+    </form>
+</section>
+
+<style>
+    .question {
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+

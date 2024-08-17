@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Classification Result{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <h2>Classification Result</h2>
+    <p>Your classification is: <strong>{{ classification }}</strong></p>
+
+    {% if classification == 'Type 1 Diabetes' %}
+        <p>Based on your responses, you are classified as having Type 1 Diabetes. This type is characterized by autoimmune destruction of insulin-producing cells, and it often requires insulin therapy.</p>
+    {% elif classification == 'Type 2 Diabetes' %}
+        <p>Based on your responses, you are classified as having Type 2 Diabetes. This type is commonly associated with insulin resistance and is often managed with lifestyle changes and medication.</p>
+    {% elif classification == 'Pre-Diabetic' %}
+        <p>Based on your responses, you are classified as Pre-Diabetic. This stage indicates elevated blood glucose levels that are not high enough to be classified as diabetes, but lifestyle changes are recommended to prevent progression.</p>
+    {% elif classification == 'Healthy' %}
+        <p>Based on your responses, you have a clean bill of health. Your current health status does not indicate diabetes or pre-diabetes. Keep up with a healthy lifestyle to maintain your health.</p>
+    {% else %}
+        <p>We could not determine a specific classification based on your responses. Please consult with a healthcare professional for a thorough evaluation.</p>
+    {% endif %}
+
+    <form action="{% url 'recommendation' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="diabetes_type" value="{{ classification }}">
+        <button type="submit" class="recommend-btn">Recommend Recipes</button>
+    </form>
+</section>
+{% endblock %}
