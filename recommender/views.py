@@ -94,11 +94,11 @@ class RecipeRecommendationView(View):
             recipes = Recipe.objects.exclude(local_name__isnull=True).filter(
                 total_carbohydrates__lt=max_carbs,
                 fiber__gte=min_fiber
-            ).exclude(local_name='nan')
+            ).exclude(local_name='nan').order_by('-rating')
         elif diabetes_type == 'Pre-Diabetic':
-            recipes = Recipe.objects.exclude(local_name__isnull=True).exclude(local_name='nan')
+            recipes = Recipe.objects.exclude(local_name__isnull=True).exclude(local_name='nan').order_by('-rating')
         elif diabetes_type == 'Healthy':
-            recipes = Recipe.objects.exclude(local_name__isnull=True).exclude(local_name='nan')
+            recipes = Recipe.objects.exclude(local_name__isnull=True).exclude(local_name='nan').order_by('-rating')
         else:
             return JsonResponse({"error": "Invalid diabetes type"}, status=400)
 
