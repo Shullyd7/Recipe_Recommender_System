@@ -3,8 +3,8 @@
 {% block title %}Diabetes Classification{% endblock %}
 
 {% block content %}
-<section class="content-section">
-    <h2>Classify Your Diabetes Type</h2>
+<section class="content-section" style="font-family: 'Lucida Sans', 'Trebuchet MS', 'Georgia', serif;">
+    <h2>Assess Your Diabetes Risk</h2>
     <form id="classificationForm" action="/recipes/classify/" method="POST">
         {% csrf_token %}
         <div class="question">

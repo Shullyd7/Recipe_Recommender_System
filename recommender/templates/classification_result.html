@@ -3,26 +3,26 @@
 {% block title %}Classification Result{% endblock %}
 
 {% block content %}
-<section class="content-section">
+<section class="content-section" style="font-family: 'Lucida Sans', 'Trebuchet MS', 'Georgia', serif;">
     <h2>Classification Result</h2>
     <p>Your classification is: <strong>{{ classification }}</strong></p>
 
     {% if classification == 'Type 1 Diabetes' %}
-        <p>Based on your responses, you are classified as having Type 1 Diabetes. This type is characterized by autoimmune destruction of insulin-producing cells, and it often requires insulin therapy.</p>
+        <p>Based on your responses, you are classified as having Type 1 Diabetes. This type is characterized by autoimmune destruction of insulin-producing cells, and it often requires insulin therapy. Click on the button below to get personalized food recipes and items suitable for managing Type 1 Diabetes.</p>
     {% elif classification == 'Type 2 Diabetes' %}
-        <p>Based on your responses, you are classified as having Type 2 Diabetes. This type is commonly associated with insulin resistance and is often managed with lifestyle changes and medication.</p>
+        <p>Based on your responses, you are classified as having Type 2 Diabetes. This type is commonly associated with insulin resistance and is often managed with lifestyle changes and medication. Click on the button below to get personalized food recipes and items suitable for managing Type 2 Diabetes.</p>
     {% elif classification == 'Pre-Diabetic' %}
-        <p>Based on your responses, you are classified as Pre-Diabetic. This stage indicates elevated blood glucose levels that are not high enough to be classified as diabetes, but lifestyle changes are recommended to prevent progression.</p>
+        <p>Based on your responses, you are classified as Pre-Diabetic. This stage indicates elevated blood glucose levels that are not high enough to be classified as diabetes, but lifestyle changes are recommended to prevent progression. Click on the button below to get personalized food recipes and items that can help manage and improve your condition.</p>
     {% elif classification == 'Healthy' %}
-        <p>Based on your responses, you have a clean bill of health. Your current health status does not indicate diabetes or pre-diabetes. Keep up with a healthy lifestyle to maintain your health.</p>
+        <p>Based on your responses, you have a clean bill of health. Your current health status does not indicate diabetes or pre-diabetes. Keep up with a healthy lifestyle to maintain your health. Click on the button below to explore recipes and items that can help you maintain your well-being.</p>
     {% else %}
-        <p>We could not determine a specific classification based on your responses. Please consult with a healthcare professional for a thorough evaluation.</p>
+        <p>We could not determine a specific classification based on your responses. Please consult with a healthcare professional for a thorough evaluation. Click on the button below to explore our general recipes and items.</p>
     {% endif %}
 
     <form action="{% url 'recommendation' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="diabetes_type" value="{{ classification }}">
-        <button type="submit" class="recommend-btn">Recommend Recipes</button>
+        <button type="submit" class="recommend-btn">Get Personalized Recipes and Food Items</button>
     </form>
 </section>
 {% endblock %}
